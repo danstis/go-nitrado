@@ -1,5 +1,7 @@
 # go-nitrado
 
+[![DeepSource](https://deepsource.io/gh/danstis/go-nitrado.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/danstis/go-nitrado/?ref=repository-badge)
+
 Go library for accessing the Nitrado.net API.
 
 **Note:** go-nitrado is currently in development, so its API may have slightly breaking changes if we find better ways of doing things.
