@@ -1,5 +1,6 @@
 # go-nitrado
 
+![Build Test and Release](https://github.com/danstis/go-nitrado/workflows/Build%20Test%20and%20Release/badge.svg)
 [![DeepSource](https://deepsource.io/gh/danstis/go-nitrado.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/danstis/go-nitrado/?ref=repository-badge)
 
 Go library for accessing the Nitrado.net API.
