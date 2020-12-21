@@ -73,6 +73,8 @@ jobs:
 
       - name: Upload Coverage data to deepsource
         run: ./bin/deepsource report --analyzer test-coverage --key go --value-file ./cover.out
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
 
   lint:
     name: Lint
