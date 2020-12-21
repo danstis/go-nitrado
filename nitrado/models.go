@@ -2,43 +2,6 @@ package nitrado
 
 // Generated structs from https://mholt.github.io/json-to-go/
 
-// Service contains the structure of a nitrado.net Api service object
-type Service struct {
-	ID                    int         `json:"id"`
-	LocationID            int         `json:"location_id"`
-	Status                string      `json:"status"`
-	WebsocketToken        string      `json:"websocket_token"`
-	UserID                int         `json:"user_id"`
-	Comment               interface{} `json:"comment"`
-	AutoExtension         bool        `json:"auto_extension"`
-	AutoExtensionDuration int         `json:"auto_extension_duration"`
-	Type                  string      `json:"type"`
-	TypeHuman             string      `json:"type_human"`
-	Details               struct {
-		Address       string `json:"address"`
-		Name          string `json:"name"`
-		Game          string `json:"game"`
-		PortlistShort string `json:"portlist_short"`
-		FolderShort   string `json:"folder_short"`
-		Slots         int    `json:"slots"`
-	} `json:"details"`
-	StartDate    string   `json:"start_date"`
-	SuspendDate  string   `json:"suspend_date"`
-	DeleteDate   string   `json:"delete_date"`
-	SuspendingIn int      `json:"suspending_in"`
-	DeletingIn   int      `json:"deleting_in"`
-	Username     string   `json:"username"`
-	Roles        []string `json:"roles"`
-}
-
-// Services contains a list of services
-type Services struct {
-	Status string `json:"status"`
-	Data   struct {
-		Services []Service `json:"services"`
-	} `json:"data"`
-}
-
 // FileBookmarks contains the list of file locations on a game server
 type FileBookmarks struct {
 	Status string `json:"status"`
