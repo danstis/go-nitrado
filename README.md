@@ -2,6 +2,7 @@
 
 [![Build Test and Release](https://github.com/danstis/go-nitrado/workflows/Build%20Test%20and%20Release/badge.svg)](https://github.com/danstis/go-nitrado/actions?query=workflow%3A%22Build+Test+and+Release%22)
 [![DeepSource](https://deepsource.io/gh/danstis/go-nitrado.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/danstis/go-nitrado/?ref=repository-badge)
+[![codecov](https://codecov.io/gh/danstis/go-nitrado/branch/master/graph/badge.svg?token=Q2T27EQ2XM)](https://codecov.io/gh/danstis/go-nitrado)
 
 Go library for accessing the Nitrado.net API.
 
