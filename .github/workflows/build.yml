@@ -13,6 +13,42 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.14
+        id: go
+
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.5.x"
+
+      - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+
+      - name: Build windows x64
+        run: go build -v ./nitrado/
+        env:
+          GOOS: windows
+          GOARCH: amd64
+
+      - name: Build linux x86
+        run: go build -v ./nitrado/
+        env:
+          GOOS: linux
+          GOARCH: 386
+
   test:
     name: Test
     runs-on: ubuntu-latest
