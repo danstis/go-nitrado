@@ -26,6 +26,11 @@ type Client struct {
 	client    *http.Client
 	token     string
 	userAgent string
+
+	common apiService // Reuse a single struct instead of allocating one for each service on the heap.
+
+	// Services used for talking to different parts of the Nitrado API.
+	Services *ServicesService
 }
 
 // NewRequest creates an API request. A relative URL can be provided in urlStr,
@@ -107,15 +112,20 @@ type apiService struct {
 	client *Client
 }
 
-// New creates a new instance of a NitradoAPI
-func New(apiToken string) *Client {
+// NewClient creates a new instance of a NitradoAPI
+func NewClient(apiToken string) *Client {
 	baseURL, _ := url.Parse(defaultBaseURI)
-	return &Client{
+
+	client := &Client{
 		BaseURI:   baseURL,
 		token:     apiToken,
 		client:    &http.Client{},
 		userAgent: userAgent,
 	}
+
+	client.Services = (*ServicesService)(&client.common)
+
+	return client
 }
 
 // // Services gets a list of services on the account

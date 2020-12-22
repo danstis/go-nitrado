@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"os"
-	"reflect"
 	"testing"
 )
 
@@ -43,7 +42,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 
 	// client is the GitHub client being tested and is
 	// configured to use test server.
-	client = New(token)
+	client = NewClient(token)
 	url, _ := url.Parse(server.URL + baseURLPath + "/")
 	client.BaseURI = url
 
@@ -57,32 +56,18 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	}
 }
 
-func TestNew(t *testing.T) {
-	baseURL, _ := url.Parse(defaultBaseURI)
-	type args struct {
-		apiToken string
+func TestNewClient(t *testing.T) {
+	c := NewClient(token)
+
+	if got, want := c.BaseURI.String(), defaultBaseURI; got != want {
+		t.Errorf("NewClient BaseURI is %v, want %v", got, want)
 	}
-	tests := []struct {
-		name string
-		args args
-		want *Client
-	}{
-		{
-			name: "Create with token",
-			args: args{apiToken: token},
-			want: &Client{
-				BaseURI:   baseURL,
-				token:     token,
-				client:    &http.Client{},
-				userAgent: userAgent,
-			},
-		},
+	if got, want := c.userAgent, userAgent; got != want {
+		t.Errorf("NewClient userAgent is %v, want %v", got, want)
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := New(tt.args.apiToken); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("New() = %v, want %v", got, tt.want)
-			}
-		})
+
+	c2 := NewClient(token)
+	if c.client == c2.client {
+		t.Error("NewClient returned same http.Clients, but they should differ")
 	}
 }
