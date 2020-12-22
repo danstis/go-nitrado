@@ -100,16 +100,19 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.29
-  # release:
-  #   name: Release
-  #   runs-on: ubuntu-latest
-  #   needs: [test, lint]
-  #   steps:
-  #     - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
-  #       id: gitversion
-  #       uses: gittools/actions/gitversion/execute@v0.9.5
-  #     - name: Push version tag
-  #       uses: tvdias/github-tagger@v0.0.1
-  #       with:
-  #         repo-token: ${{ secrets.GITHUB_TOKEN }}
-  #         tag: ${{ steps.gitversion.outputs.FullSemVer }}
+
+  tag:
+    name: Tag
+    runs-on: ubuntu-latest
+    needs: [build, test, lint]
+    steps:
+      - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.5
+
+      - name: Push version tag
+        uses: tvdias/github-tagger@v0.0.1
+        if: ${{ steps.gitversion.outputs.PreReleaseTag == "" }}
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.gitversion.outputs.FullSemVer }}
