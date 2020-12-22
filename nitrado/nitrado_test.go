@@ -1,7 +1,9 @@
 package nitrado
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -56,6 +58,16 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	}
 }
 
+func testURLParseError(t *testing.T, err error) {
+	t.Helper()
+	if err == nil {
+		t.Errorf("Expected error to be returned")
+	}
+	if err, ok := err.(*url.Error); !ok || err.Op != "parse" {
+		t.Errorf("Expected URL parse error, got %+v", err)
+	}
+}
+
 func TestNewClient(t *testing.T) {
 	c := NewClient(token)
 
@@ -69,5 +81,66 @@ func TestNewClient(t *testing.T) {
 	c2 := NewClient(token)
 	if c.client == c2.client {
 		t.Error("NewClient returned same http.Clients, but they should differ")
+	}
+}
+
+func TestNewRequest(t *testing.T) {
+	c := NewClient(token)
+
+	inURL, outURL := "/foo", defaultBaseURI+"foo"
+	inBody, outBody := &[]string{"Test", "Test2"}, `["Test","Test2"]`+"\n"
+	req, _ := c.NewRequest("GET", inURL, inBody)
+
+	// Test that relative URL was expanded
+	if got, want := req.URL.String(), outURL; got != want {
+		t.Errorf("NewRequest(%q) URL is %v, want %v", inURL, got, want)
+	}
+
+	// Test that body was JSON encoded
+	body, _ := ioutil.ReadAll(req.Body)
+	if got, want := string(body), outBody; got != want {
+		t.Errorf("NewRequest(%q) Body is %v, want %v", inBody, got, want)
+	}
+
+	// Test that default user-agent is attached to the request
+	if got, want := req.Header.Get("User-Agent"), c.UserAgent; got != want {
+		t.Errorf("NewRequest() User-Agent is %v, want %v", got, want)
+	}
+
+	// Test a BaseURI without a trailing slash
+	c.BaseURI, _ = url.Parse("http://url.invalid")
+	wantErr := fmt.Errorf("BaseURI must have a trailing slash, but %q does not", c.BaseURI)
+	_, gotErr := c.NewRequest("GET", inURL, inBody)
+	if gotErr.Error() != wantErr.Error() {
+		t.Errorf("NewRequest error is %#v, wanted %#v", gotErr, wantErr)
+	}
+}
+
+func TestNewRequest_invalidJSON(t *testing.T) {
+	c := NewClient(token)
+
+	type T struct {
+		A map[interface{}]interface{}
+	}
+	_, err := c.NewRequest("GET", ".", &T{})
+
+	if err == nil {
+		t.Error("Expected error to be returned.")
+	}
+	if err, ok := err.(*json.UnsupportedTypeError); !ok {
+		t.Errorf("Expected a JSON error; got %#v.", err)
+	}
+}
+
+func TestNewRequest_badURL(t *testing.T) {
+	c := NewClient(token)
+	_, err := c.NewRequest("GET", ":", nil)
+	testURLParseError(t, err)
+}
+
+func TestNewRequest_badMethod(t *testing.T) {
+	c := NewClient(token)
+	if _, err := c.NewRequest("BOGUS\nMETHOD", ".", nil); err == nil {
+		t.Fatal("NewRequest returned nil; expected error")
 	}
 }
