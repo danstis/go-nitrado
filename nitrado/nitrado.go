@@ -15,7 +15,7 @@ import (
 const (
 	defaultBaseURI string        = "https://api.nitrado.net/"
 	retryCount     int           = 10
-	retryDelay     time.Duration = 15 * time.Second
+	retryDelay     time.Duration = 2 * time.Second
 	userAgent      string        = "go-nitrado"
 )
 
