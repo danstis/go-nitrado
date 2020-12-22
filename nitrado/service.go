@@ -1,6 +1,7 @@
 package nitrado
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -40,11 +41,19 @@ type Service struct {
 	Roles        []string `json:"roles"`
 }
 
-// ServiceList contains a list of services
-type ServiceList struct {
+// ServiceListResp contains a list of services
+type ServiceListResp struct {
 	Status string `json:"status"`
 	Data   struct {
 		Services []Service `json:"services"`
+	} `json:"data"`
+}
+
+// ServiceDetailResp contains a list of services
+type ServiceDetailResp struct {
+	Status string `json:"status"`
+	Data   struct {
+		Service Service `json:"service"`
 	} `json:"data"`
 }
 
@@ -58,13 +67,32 @@ func (s *ServicesService) List() (*[]Service, *http.Response, error) {
 		return services, nil, err
 	}
 
-	var serviceList *ServiceList
-	resp, err := s.client.Do(req, &serviceList)
+	var serviceListResp *ServiceListResp
+	resp, err := s.client.Do(req, &serviceListResp)
 	if err != nil {
 		return services, resp, err
 	}
 
-	services = &serviceList.Data.Services
+	services = &serviceListResp.Data.Services
 
 	return services, resp, nil
+}
+
+// Get a Service by ID.
+//
+// Nitrado API docs: https://doc.nitrado.net/#api-Service-Details
+func (s *ServicesService) Get(ID int) (*Service, *http.Response, error) {
+	u := fmt.Sprintf("services/%v", ID)
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var serviceDetailResp *ServiceDetailResp
+	resp, err := s.client.Do(req, &serviceDetailResp)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &serviceDetailResp.Data.Service, resp, nil
 }

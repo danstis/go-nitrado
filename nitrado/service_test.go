@@ -115,3 +115,74 @@ func TestServicesService_List(t *testing.T) {
 		})
 	}
 }
+
+func TestServicesService_Get(t *testing.T) {
+	client, mux, _, teardown := setup()
+	defer teardown()
+
+	mux.HandleFunc("/services/3", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"status":"success","data":{"service":{"id":3,"location_id":2,"status":"active","websocket_token":"abcdefgh012345","user_id":2,"username":"ni2_2","auto_extension":false,"auto_extension_duration":null,"type":"gameserver","type_human":"Publicserver 16 Slots","details":{"address":"10.10.0.6:27015","name":"Nitrado.net Battlefield 4 Server","game":"Battlefield 4","portlist_short":"bf4","folder_short":"bf4","slots":16},"start_date":"2015-08-11T13:01:01","suspend_date":"2017-02-09T22:26:46","delete_date":"2017-02-19T22:26:46","arguments":{"startgame":"bf4","startport":"27015"},"roles":["ROLE_OWNER"]}}}`)
+	})
+
+	type args struct {
+		ID int
+	}
+	tests := []struct {
+		name    string
+		s       *ServicesService
+		args    args
+		want    *Service
+		wantErr bool
+	}{
+		{
+			name: "List Services",
+			s:    client.Services,
+			args: args{ID: 3},
+			want: &Service{
+				ID:                    3,
+				LocationID:            2,
+				Status:                "active",
+				WebsocketToken:        "abcdefgh012345",
+				UserID:                2,
+				Username:              "ni2_2",
+				AutoExtension:         false,
+				AutoExtensionDuration: 0,
+				Type:                  "gameserver",
+				TypeHuman:             "Publicserver 16 Slots",
+				Details: struct {
+					Address       string "json:\"address\""
+					Name          string "json:\"name\""
+					Game          string "json:\"game\""
+					PortlistShort string "json:\"portlist_short\""
+					FolderShort   string "json:\"folder_short\""
+					Slots         int    "json:\"slots\""
+				}{
+					Address:       "10.10.0.6:27015",
+					Name:          "Nitrado.net Battlefield 4 Server",
+					Game:          "Battlefield 4",
+					PortlistShort: "bf4",
+					FolderShort:   "bf4",
+					Slots:         16,
+				},
+				StartDate:   "2015-08-11T13:01:01",
+				SuspendDate: "2017-02-09T22:26:46",
+				DeleteDate:  "2017-02-19T22:26:46",
+				Roles:       []string{"ROLE_OWNER"},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, _, err := tt.s.Get(tt.args.ID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ServicesService.Get() error = %#v, wantErr %#v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ServicesService.Get() got = %#v, want %#v", got, tt.want)
+			}
+		})
+	}
+}
