@@ -17,5 +17,8 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("Services: %#v", services)
+	for _, s := range *services {
+		gs, _, _ := api.GameServers.Get(s.ID)
+		fmt.Printf("GameServer for %q: %q\n", s.Details.Name, gs.GameHuman)
+	}
 }
