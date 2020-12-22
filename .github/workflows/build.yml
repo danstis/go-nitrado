@@ -97,6 +97,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, test, lint]
     steps:
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.5.x"
+
       - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0.9.5
