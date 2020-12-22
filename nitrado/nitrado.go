@@ -34,7 +34,8 @@ type Client struct {
 	common apiService // Reuse a single struct instead of allocating one for each service on the heap.
 
 	// Services used for talking to different parts of the Nitrado API.
-	Services *ServicesService
+	Services    *ServicesService
+	GameServers *GameServersService
 }
 
 type apiService struct {
@@ -130,6 +131,7 @@ func NewClient(apiToken string) *Client {
 	c.common.client = c
 
 	c.Services = (*ServicesService)(&c.common)
+	c.GameServers = (*GameServersService)(&c.common)
 
 	return c
 }
