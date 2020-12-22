@@ -4,44 +4,20 @@
 [![DeepSource](https://deepsource.io/gh/danstis/go-nitrado.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/danstis/go-nitrado/?ref=repository-badge)
 [![codecov](https://codecov.io/gh/danstis/go-nitrado/branch/master/graph/badge.svg?token=Q2T27EQ2XM)](https://codecov.io/gh/danstis/go-nitrado)
 
-Go library for accessing the Nitrado.net API.
+Go library for accessing the [nitrado.net](https://doc.nitrado.net/) API.
 
 **Note:** go-nitrado is currently in development, so its API may have slightly breaking changes if we find better ways of doing things.
 
-### Usage ###
+## Usage
 
 ```go
 import "github.com/danstis/go-nitrado/nitrado"
 ```
 
 Create a new Nitrado client instance, then use provided methods on the client to
-access the API. For example, to list all workspaces:
+access the API. For example, to list all services:
 
 ```go
-client := nitrado.NewClient(nil)
-services, err := client.ListServices()
+client := nitrado.NewClient("YourNitradoToken")
+services, resp, err := client.Services.List()
 ```
-
-### Authentication ###
-
-The go-nitrado library does not directly handle authentication. Instead, when
-creating a new client, pass an `http.Client` that can handle authentication for
-you. The easiest way to do this is using the [goauth2][] library, but you can
-always use any other library that provides an `http.Client`. If you have an OAuth2
-access token, you can use it with the goauth2 using:
-
-```go
-t := &oauth.Transport{
-  Token: &oauth.Token{AccessToken: "... your access token ..."},
-}
-
-client := nitrado.NewClient(t.Client())
-
-// List all projects for the authenticated user
-projects, err := client.ListProjects(opt)
-```
-
-See the [goauth2 docs][] for complete instructions on using that library.
-
-[goauth2]: https://github.com/golang/oauth2
-[goauth2 docs]: https://godoc.org/golang.org/x/oauth2
