@@ -62,8 +62,8 @@ func TestNewClient(t *testing.T) {
 	if got, want := c.BaseURI.String(), defaultBaseURI; got != want {
 		t.Errorf("NewClient BaseURI is %v, want %v", got, want)
 	}
-	if got, want := c.userAgent, userAgent; got != want {
-		t.Errorf("NewClient userAgent is %v, want %v", got, want)
+	if got, want := c.UserAgent, userAgent; got != want {
+		t.Errorf("NewClient UserAgent is %v, want %v", got, want)
 	}
 
 	c2 := NewClient(token)

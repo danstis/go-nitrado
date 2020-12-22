@@ -24,7 +24,7 @@ type Client struct {
 	sync.Mutex
 	client    *http.Client
 	token     string
-	userAgent string
+	UserAgent string
 
 	// Base URL for API requests. Defaults to the public GitHub API, but can be
 	// set to a domain endpoint to use with GitHub Enterprise. BaseURL should
@@ -75,8 +75,8 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 		req.Header.Set("Content-Type", "application/json")
 	}
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
-	if c.userAgent != "" {
-		req.Header.Set("User-Agent", c.userAgent)
+	if c.UserAgent != "" {
+		req.Header.Set("User-Agent", c.UserAgent)
 	}
 	return req, nil
 }
@@ -124,7 +124,7 @@ func NewClient(apiToken string) *Client {
 		BaseURI:   baseURL,
 		token:     apiToken,
 		client:    &http.Client{},
-		userAgent: userAgent,
+		UserAgent: userAgent,
 	}
 
 	c.common.client = c
