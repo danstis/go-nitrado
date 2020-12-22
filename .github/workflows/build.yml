@@ -86,7 +86,7 @@ jobs:
       - name: Upload coverage to CodeClimate
         uses: paambaati/codeclimate-action@v2.7.5
         with:
-          coverageLocations: ./cover.out:gocov
+          coverageCommand: go test ./nitrado/
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
