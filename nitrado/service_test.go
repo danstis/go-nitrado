@@ -38,12 +38,12 @@ func TestServicesService_List(t *testing.T) {
 					Type:                  "gameserver",
 					TypeHuman:             "Publicserver 16 Slots",
 					Details: struct {
-						Address       string "json:\"address\""
-						Name          string "json:\"name\""
-						Game          string "json:\"game\""
-						PortlistShort string "json:\"portlist_short\""
-						FolderShort   string "json:\"folder_short\""
-						Slots         int    "json:\"slots\""
+						Address       string `json:"address,omitempty"`
+						Name          string `json:"name,omitempty"`
+						Game          string `json:"game,omitempty"`
+						PortlistShort string `json:"portlist_short,omitempty"`
+						FolderShort   string `json:"folder_short,omitempty"`
+						Slots         int    `json:"slots,omitempty"`
 					}{
 						Address:       "10.10.0.6:27015",
 						Name:          "Nitrado.net Battlefield 4 Server",
@@ -70,12 +70,12 @@ func TestServicesService_List(t *testing.T) {
 					Type:                  "gameserver",
 					TypeHuman:             "Publicserver 4 Slots",
 					Details: struct {
-						Address       string "json:\"address\""
-						Name          string "json:\"name\""
-						Game          string "json:\"game\""
-						PortlistShort string "json:\"portlist_short\""
-						FolderShort   string "json:\"folder_short\""
-						Slots         int    "json:\"slots\""
+						Address       string `json:"address,omitempty"`
+						Name          string `json:"name,omitempty"`
+						Game          string `json:"game,omitempty"`
+						PortlistShort string `json:"portlist_short,omitempty"`
+						FolderShort   string `json:"folder_short,omitempty"`
+						Slots         int    `json:"slots,omitempty"`
 					}{
 						Address:       "10.10.0.7:27015",
 						Name:          "Nitrado.net Minecraft Server",
@@ -151,12 +151,12 @@ func TestServicesService_Get(t *testing.T) {
 				Type:                  "gameserver",
 				TypeHuman:             "Publicserver 16 Slots",
 				Details: struct {
-					Address       string "json:\"address\""
-					Name          string "json:\"name\""
-					Game          string "json:\"game\""
-					PortlistShort string "json:\"portlist_short\""
-					FolderShort   string "json:\"folder_short\""
-					Slots         int    "json:\"slots\""
+					Address       string `json:"address,omitempty"`
+					Name          string `json:"name,omitempty"`
+					Game          string `json:"game,omitempty"`
+					PortlistShort string `json:"portlist_short,omitempty"`
+					FolderShort   string `json:"folder_short,omitempty"`
+					Slots         int    `json:"slots,omitempty"`
 				}{
 					Address:       "10.10.0.6:27015",
 					Name:          "Nitrado.net Battlefield 4 Server",

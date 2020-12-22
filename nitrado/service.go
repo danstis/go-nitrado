@@ -14,47 +14,47 @@ type ServicesService apiService
 
 // Service contains the structure of a service object
 type Service struct {
-	ID                    int         `json:"id"`
-	LocationID            int         `json:"location_id"`
-	Status                string      `json:"status"`
-	WebsocketToken        string      `json:"websocket_token"`
-	UserID                int         `json:"user_id"`
-	Comment               interface{} `json:"comment"`
-	AutoExtension         bool        `json:"auto_extension"`
-	AutoExtensionDuration int         `json:"auto_extension_duration"`
-	Type                  string      `json:"type"`
-	TypeHuman             string      `json:"type_human"`
+	ID                    int         `json:"id,omitempty"`
+	LocationID            int         `json:"location_id,omitempty"`
+	Status                string      `json:"status,omitempty"`
+	WebsocketToken        string      `json:"websocket_token,omitempty"`
+	UserID                int         `json:"user_id,omitempty"`
+	Comment               interface{} `json:"comment,omitempty"`
+	AutoExtension         bool        `json:"auto_extension,omitempty"`
+	AutoExtensionDuration int         `json:"auto_extension_duration,omitempty"`
+	Type                  string      `json:"type,omitempty"`
+	TypeHuman             string      `json:"type_human,omitempty"`
 	Details               struct {
-		Address       string `json:"address"`
-		Name          string `json:"name"`
-		Game          string `json:"game"`
-		PortlistShort string `json:"portlist_short"`
-		FolderShort   string `json:"folder_short"`
-		Slots         int    `json:"slots"`
-	} `json:"details"`
-	StartDate    string   `json:"start_date"`
-	SuspendDate  string   `json:"suspend_date"`
-	DeleteDate   string   `json:"delete_date"`
-	SuspendingIn int      `json:"suspending_in"`
-	DeletingIn   int      `json:"deleting_in"`
-	Username     string   `json:"username"`
-	Roles        []string `json:"roles"`
+		Address       string `json:"address,omitempty"`
+		Name          string `json:"name,omitempty"`
+		Game          string `json:"game,omitempty"`
+		PortlistShort string `json:"portlist_short,omitempty"`
+		FolderShort   string `json:"folder_short,omitempty"`
+		Slots         int    `json:"slots,omitempty"`
+	} `json:"details,omitempty"`
+	StartDate    string   `json:"start_date,omitempty"`
+	SuspendDate  string   `json:"suspend_date,omitempty"`
+	DeleteDate   string   `json:"delete_date,omitempty"`
+	SuspendingIn int      `json:"suspending_in,omitempty"`
+	DeletingIn   int      `json:"deleting_in,omitempty"`
+	Username     string   `json:"username,omitempty"`
+	Roles        []string `json:"roles,omitempty"`
 }
 
 // ServiceListResp contains a list of services
 type ServiceListResp struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 	Data   struct {
-		Services []Service `json:"services"`
-	} `json:"data"`
+		Services []Service `json:"services,omitempty"`
+	} `json:"data,omitempty"`
 }
 
 // ServiceDetailResp contains a list of services
 type ServiceDetailResp struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 	Data   struct {
-		Service Service `json:"service"`
-	} `json:"data"`
+		Service Service `json:"service,omitempty"`
+	} `json:"data,omitempty"`
 }
 
 // List all services.
