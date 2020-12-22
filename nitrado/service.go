@@ -51,17 +51,20 @@ type ServiceList struct {
 // List all services.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Service-List
-func (s *ServicesService) List() (*ServiceList, *http.Response, error) {
+func (s *ServicesService) List() (*[]Service, *http.Response, error) {
+	var services *[]Service
 	req, err := s.client.NewRequest("GET", "services", nil)
 	if err != nil {
-		return &ServiceList{}, nil, err
+		return services, nil, err
 	}
 
-	var services *ServiceList
-	resp, err := s.client.Do(req, &services)
+	var serviceList *ServiceList
+	resp, err := s.client.Do(req, &serviceList)
 	if err != nil {
 		return services, resp, err
 	}
+
+	services = &serviceList.Data.Services
 
 	return services, resp, nil
 }

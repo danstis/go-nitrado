@@ -19,90 +19,83 @@ func TestServicesService_List(t *testing.T) {
 	tests := []struct {
 		name    string
 		s       *ServicesService
-		want    *ServiceList
+		want    *[]Service
 		wantErr bool
 	}{
 		{
 			name: "List Services",
-			s:    &ServicesService{client: client},
-			want: &ServiceList{
-				Status: "success",
-				Data: struct {
-					Services []Service `json:"services"`
-				}{
-					Services: []Service{
-						{
-							ID:                    3,
-							LocationID:            2,
-							Status:                "active",
-							WebsocketToken:        "abcdefgh012345",
-							UserID:                2,
-							Comment:               "This is my special Battlefield Server.",
-							AutoExtension:         false,
-							AutoExtensionDuration: 0,
-							Type:                  "gameserver",
-							TypeHuman:             "Publicserver 16 Slots",
-							Details: struct {
-								Address       string "json:\"address\""
-								Name          string "json:\"name\""
-								Game          string "json:\"game\""
-								PortlistShort string "json:\"portlist_short\""
-								FolderShort   string "json:\"folder_short\""
-								Slots         int    "json:\"slots\""
-							}{
-								Address:       "10.10.0.6:27015",
-								Name:          "Nitrado.net Battlefield 4 Server",
-								Game:          "Battlefield 4",
-								PortlistShort: "bf4",
-								FolderShort:   "bf4",
-								Slots:         16,
-							},
-							StartDate:   "2015-08-11T13:01:01",
-							SuspendDate: "2017-02-09T22:26:46",
-							DeleteDate:  "2017-02-19T22:26:46",
-							Username:    "ni2_1",
-							Roles:       []string{"ROLE_OWNER"},
-						},
-						{
-							ID:                    6,
-							LocationID:            2,
-							Status:                "active",
-							WebsocketToken:        "abcdefgh012345",
-							UserID:                1,
-							Comment:               nil,
-							AutoExtension:         false,
-							AutoExtensionDuration: 0,
-							Type:                  "gameserver",
-							TypeHuman:             "Publicserver 4 Slots",
-							Details: struct {
-								Address       string "json:\"address\""
-								Name          string "json:\"name\""
-								Game          string "json:\"game\""
-								PortlistShort string "json:\"portlist_short\""
-								FolderShort   string "json:\"folder_short\""
-								Slots         int    "json:\"slots\""
-							}{
-								Address:       "10.10.0.7:27015",
-								Name:          "Nitrado.net Minecraft Server",
-								Game:          "Minecraft",
-								PortlistShort: "mcr",
-								FolderShort:   "minecraft",
-								Slots:         4,
-							},
-							StartDate:   "2015-08-11T13:01:01",
-							SuspendDate: "2017-02-09T22:26:46",
-							DeleteDate:  "2017-02-19T22:26:46",
-							Username:    "ni1_1",
-							Roles: []string{
-								"ROLE_GAMESERVER_CHANGE_GAME",
-								"ROLE_WEBINTERFACE_GENERAL_CONTROL",
-								"ROLE_WEBINTERFACE_SETTINGS_READ",
-								"ROLE_WEBINTERFACE_SETTINGS_WRITE",
-								"ROLE_WEBINTERFACE_LOGS_READ",
-								"ROLE_WEBINTERFACE_SCHEDULED_RESTART_READ",
-								"ROLE_WEBINTERFACE_SCHEDULED_RESTART_WRITE",
-							},
-						},
+			s:    client.Services,
+			want: &[]Service{
+				{
+					ID:                    3,
+					LocationID:            2,
+					Status:                "active",
+					WebsocketToken:        "abcdefgh012345",
+					UserID:                2,
+					Comment:               "This is my special Battlefield Server.",
+					AutoExtension:         false,
+					AutoExtensionDuration: 0,
+					Type:                  "gameserver",
+					TypeHuman:             "Publicserver 16 Slots",
+					Details: struct {
+						Address       string "json:\"address\""
+						Name          string "json:\"name\""
+						Game          string "json:\"game\""
+						PortlistShort string "json:\"portlist_short\""
+						FolderShort   string "json:\"folder_short\""
+						Slots         int    "json:\"slots\""
+					}{
+						Address:       "10.10.0.6:27015",
+						Name:          "Nitrado.net Battlefield 4 Server",
+						Game:          "Battlefield 4",
+						PortlistShort: "bf4",
+						FolderShort:   "bf4",
+						Slots:         16,
+					},
+					StartDate:   "2015-08-11T13:01:01",
+					SuspendDate: "2017-02-09T22:26:46",
+					DeleteDate:  "2017-02-19T22:26:46",
+					Username:    "ni2_1",
+					Roles:       []string{"ROLE_OWNER"},
+				},
+				{
+					ID:                    6,
+					LocationID:            2,
+					Status:                "active",
+					WebsocketToken:        "abcdefgh012345",
+					UserID:                1,
+					Comment:               nil,
+					AutoExtension:         false,
+					AutoExtensionDuration: 0,
+					Type:                  "gameserver",
+					TypeHuman:             "Publicserver 4 Slots",
+					Details: struct {
+						Address       string "json:\"address\""
+						Name          string "json:\"name\""
+						Game          string "json:\"game\""
+						PortlistShort string "json:\"portlist_short\""
+						FolderShort   string "json:\"folder_short\""
+						Slots         int    "json:\"slots\""
+					}{
+						Address:       "10.10.0.7:27015",
+						Name:          "Nitrado.net Minecraft Server",
+						Game:          "Minecraft",
+						PortlistShort: "mcr",
+						FolderShort:   "minecraft",
+						Slots:         4,
+					},
+					StartDate:   "2015-08-11T13:01:01",
+					SuspendDate: "2017-02-09T22:26:46",
+					DeleteDate:  "2017-02-19T22:26:46",
+					Username:    "ni1_1",
+					Roles: []string{
+						"ROLE_GAMESERVER_CHANGE_GAME",
+						"ROLE_WEBINTERFACE_GENERAL_CONTROL",
+						"ROLE_WEBINTERFACE_SETTINGS_READ",
+						"ROLE_WEBINTERFACE_SETTINGS_WRITE",
+						"ROLE_WEBINTERFACE_LOGS_READ",
+						"ROLE_WEBINTERFACE_SCHEDULED_RESTART_READ",
+						"ROLE_WEBINTERFACE_SCHEDULED_RESTART_WRITE",
 					},
 				},
 			},

@@ -22,15 +22,23 @@ const (
 // Client represents the config of the Nitrado.net Client
 type Client struct {
 	sync.Mutex
-	BaseURI   *url.URL
 	client    *http.Client
 	token     string
 	userAgent string
+
+	// Base URL for API requests. Defaults to the public GitHub API, but can be
+	// set to a domain endpoint to use with GitHub Enterprise. BaseURL should
+	// always be specified with a trailing slash.
+	BaseURI *url.URL
 
 	common apiService // Reuse a single struct instead of allocating one for each service on the heap.
 
 	// Services used for talking to different parts of the Nitrado API.
 	Services *ServicesService
+}
+
+type apiService struct {
+	client *Client
 }
 
 // NewRequest creates an API request. A relative URL can be provided in urlStr,
@@ -108,24 +116,22 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	return resp, err
 }
 
-type apiService struct {
-	client *Client
-}
-
 // NewClient creates a new instance of a NitradoAPI
 func NewClient(apiToken string) *Client {
 	baseURL, _ := url.Parse(defaultBaseURI)
 
-	client := &Client{
+	c := &Client{
 		BaseURI:   baseURL,
 		token:     apiToken,
 		client:    &http.Client{},
 		userAgent: userAgent,
 	}
 
-	client.Services = (*ServicesService)(&client.common)
+	c.common.client = c
 
-	return client
+	c.Services = (*ServicesService)(&c.common)
+
+	return c
 }
 
 // // Services gets a list of services on the account
