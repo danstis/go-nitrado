@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/danstis/go-nitrado/nitrado"
 )
 
-var token string = "YourTokenHere"
+var token string = os.Getenv("nitradoToken")
 
 func main() {
 	api := nitrado.NewClient(token)
