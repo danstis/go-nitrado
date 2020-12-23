@@ -1,18 +1,16 @@
-name: release
+name: Create Release
 
 on:
   push:
     tags:
       - "*"
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-
+    if: github.event.base_ref == 'refs/heads/master'
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -26,7 +24,7 @@ jobs:
         id: go
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@2.4.1
+        uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
           args: release --rm-dist
