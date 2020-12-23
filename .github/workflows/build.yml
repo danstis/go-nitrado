@@ -125,6 +125,12 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ steps.gitversion.outputs.FullSemVer }}
 
+      - name: Check out code
+        uses: actions/checkout@v2
+        if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
+        with:
+          fetch-depth: 0
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
