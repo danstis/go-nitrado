@@ -113,7 +113,7 @@ jobs:
 
       - name: Push version tag
         uses: tvdias/github-tagger@v0.0.1
-        if: ${{ steps.gitversion.outputs.PreReleaseTag == '' }}
+        if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.gitversion.outputs.FullSemVer }}
