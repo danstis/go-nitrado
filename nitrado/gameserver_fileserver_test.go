@@ -76,3 +76,48 @@ func TestFileServerService_List(t *testing.T) {
 		})
 	}
 }
+
+func TestFileServerService_Download(t *testing.T) {
+	client, mux, _, teardown := setup()
+	defer teardown()
+
+	mux.HandleFunc("/services/7654321/gameservers/file_server/download", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/download/?token=00000000-0000-0000-0000-000000000000","token":"00000000-0000-0000-0000-000000000000"}}}`)
+	})
+
+	type args struct {
+		svc  Service
+		file string
+	}
+	tests := []struct {
+		name    string
+		s       *FileServerService
+		args    args
+		want    string
+		want1   *http.Response
+		wantErr bool
+	}{
+		{
+			name: "Download a file",
+			s:    client.FileServerService,
+			args: args{
+				svc:  Service{ID: 7654321, Username: "ni1_1"},
+				file: "abcd",
+			},
+			want: "http://dev001.nitrado.net:8080/download/?token=00000000-0000-0000-0000-000000000000",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, _, err := tt.s.Download(tt.args.svc, tt.args.file)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FileServerService.Download() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, &tt.want) {
+				t.Errorf("FileServerService.Download() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
