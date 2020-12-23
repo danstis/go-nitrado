@@ -1,0 +1,10 @@
+# Check the documentation at http://goreleaser.com
+builds:
+  skip: true
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^(build|chore|ci|doc|docs|none|perf|refactor|skip|test)(\\(.*?\\))?:"
+release:
+  prerelease: auto
