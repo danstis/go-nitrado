@@ -119,7 +119,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0.9.5
 
       - name: Push version tag
-        uses: tvdias/github-tagger@v0.0.1
+        uses: tvdias/github-tagger@v0.0.2
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
