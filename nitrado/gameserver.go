@@ -150,7 +150,7 @@ func (s *GameServersService) Restart(serviceID int) error {
 		return err
 	}
 	if gameServerRestartResp.Status != "success" {
-		return fmt.Errorf("Status: %s: %s", gameServerRestartResp.Status, gameServerRestartResp.Message)
+		return fmt.Errorf("status %q (%q)", gameServerRestartResp.Status, gameServerRestartResp.Message)
 	}
 
 	return nil
