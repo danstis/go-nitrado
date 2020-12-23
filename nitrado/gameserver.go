@@ -109,6 +109,12 @@ type GameServerDetailResp struct {
 	} `json:"data,omitempty"`
 }
 
+// GameServerRestartResp contains the query response from the Nitrado API for the GameServer operation
+type GameServerRestartResp struct {
+	Status  string `json:"status,omitempty"`
+	Message string `json:"message,omitempty"`
+}
+
 // Get a GameServer by service ID.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-Details
@@ -126,4 +132,26 @@ func (s *GameServersService) Get(serviceID int) (*GameServer, *http.Response, er
 	}
 
 	return &gameServerDetailResp.Data.GameServer, resp, nil
+}
+
+// Restart a GameServer by service ID.
+//
+// Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-Details
+func (s *GameServersService) Restart(serviceID int) error {
+	u := fmt.Sprintf("services/%v/gameservers/restart", serviceID)
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return err
+	}
+
+	var gameServerRestartResp *GameServerRestartResp
+	_, err = s.client.Do(req, &gameServerRestartResp)
+	if err != nil {
+		return err
+	}
+	if gameServerRestartResp.Status != "success" {
+		return fmt.Errorf("Status: %s: %s", gameServerRestartResp.Status, gameServerRestartResp.Message)
+	}
+
+	return nil
 }
