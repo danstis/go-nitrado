@@ -7,6 +7,9 @@ import (
 	"testing"
 )
 
+// JSON minified using https://codebeautify.org/jsonminifier
+
+//TestGameServersService_Get tests the GameServersService Get() method.
 func TestGameServersService_Get(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
@@ -247,6 +250,7 @@ func TestGameServersService_Get(t *testing.T) {
 	}
 }
 
+// TestGameServersService_Restart tests the GameServersService Restart() method.
 func TestGameServersService_Restart(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()

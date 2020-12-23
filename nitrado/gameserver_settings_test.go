@@ -7,6 +7,9 @@ import (
 	"testing"
 )
 
+// JSON minified using https://codebeautify.org/jsonminifier
+
+// TestGSSettingsService_Update tests the GSSettingsService Update() method.
 func TestGSSettingsService_Update(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()

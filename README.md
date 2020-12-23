@@ -7,7 +7,7 @@
 
 Go library for accessing the [nitrado.net](https://doc.nitrado.net/) API.
 
-**Note:** go-nitrado is currently in development, so its API may have slightly breaking changes if we find better ways of doing things.
+**Note:** go-nitrado is currently in development, so its API may have breaking changes.
 
 ## Usage
 
@@ -22,3 +22,7 @@ access the API. For example, to list all services:
 client := nitrado.NewClient("YourNitradoToken")
 services, resp, err := client.Services.List()
 ```
+
+## Credit
+
+This API Client is based on the format and hard work of the ![go-github client library](https://github.com/google/go-github).

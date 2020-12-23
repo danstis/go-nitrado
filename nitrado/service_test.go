@@ -7,6 +7,9 @@ import (
 	"testing"
 )
 
+// JSON minified using https://codebeautify.org/jsonminifier
+
+// TestServicesService_List tests the ServicesService List() method.
 func TestServicesService_List(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
@@ -116,6 +119,7 @@ func TestServicesService_List(t *testing.T) {
 	}
 }
 
+// TestServicesService_Get tests the ServicesService Get() method.
 func TestServicesService_Get(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()

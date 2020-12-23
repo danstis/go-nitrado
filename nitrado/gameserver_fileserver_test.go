@@ -7,6 +7,9 @@ import (
 	"testing"
 )
 
+// JSON minified using https://codebeautify.org/jsonminifier
+
+// TestFileServerService_List tests the FileServerService List() method.
 func TestFileServerService_List(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
@@ -79,6 +82,7 @@ func TestFileServerService_List(t *testing.T) {
 	}
 }
 
+// TestFileServerService_Download tests the FileServerService Download() method.
 func TestFileServerService_Download(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()

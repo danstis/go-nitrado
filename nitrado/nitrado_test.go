@@ -13,7 +13,7 @@ import (
 
 const (
 	// baseURLPath is a non-empty Client.BaseURL path to use during tests,
-	// to ensure relative URLs are used for all endpoints. See issue #752.
+	// to ensure relative URLs are used for all endpoints.
 	baseURLPath = "/api"
 	token       = "abcdefg_1234567.abcdef"
 )
@@ -27,7 +27,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 
 	// We want to ensure that tests catch mistakes where the endpoint URL is
 	// specified as absolute rather than relative. It only makes a difference
-	// when there's a non-empty base URL path. So, use that. See issue #752.
+	// when there's a non-empty base URL path. So, use that.
 	apiHandler := http.NewServeMux()
 	apiHandler.Handle(baseURLPath+"/", http.StripPrefix(baseURLPath, mux))
 	apiHandler.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
@@ -51,6 +51,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 	return client, mux, server.URL, server.Close
 }
 
+// testMethod checks the request's method.
 func testMethod(t *testing.T, r *http.Request, want string) {
 	t.Helper()
 	if got := r.Method; got != want {
@@ -58,6 +59,7 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	}
 }
 
+// testURLParseError checks for errors in Parsing the URL.
 func testURLParseError(t *testing.T, err error) {
 	t.Helper()
 	if err == nil {
@@ -68,6 +70,7 @@ func testURLParseError(t *testing.T, err error) {
 	}
 }
 
+// TestNewClient tests the NewClient() method.
 func TestNewClient(t *testing.T) {
 	c := NewClient(token)
 
@@ -84,6 +87,7 @@ func TestNewClient(t *testing.T) {
 	}
 }
 
+// TestNewRequest tests the NewRequest() method using various input.
 func TestNewRequest(t *testing.T) {
 	c := NewClient(token)
 
@@ -116,6 +120,7 @@ func TestNewRequest(t *testing.T) {
 	}
 }
 
+// TestNewRequest_invalidJSON tests the NewRequest() method with invalid JSON as the input object.
 func TestNewRequest_invalidJSON(t *testing.T) {
 	c := NewClient(token)
 
@@ -132,12 +137,14 @@ func TestNewRequest_invalidJSON(t *testing.T) {
 	}
 }
 
+// TestNewRequest_badURL tests the NewRequest() method with an invalid URL.
 func TestNewRequest_badURL(t *testing.T) {
 	c := NewClient(token)
 	_, err := c.NewRequest("GET", ":", nil)
 	testURLParseError(t, err)
 }
 
+// TestNewRequest_badMethod tests the NewRequest() method with a request with an invalid method.
 func TestNewRequest_badMethod(t *testing.T) {
 	c := NewClient(token)
 	if _, err := c.NewRequest("BOGUS\nMETHOD", ".", nil); err == nil {
@@ -145,6 +152,7 @@ func TestNewRequest_badMethod(t *testing.T) {
 	}
 }
 
+// Test_addOptions_empty tests the addOptions() function with an empty opts parameter.
 func Test_addOptions_empty(t *testing.T) {
 	if _, err := addOptions("test/path", ""); err == nil {
 		t.Fatal("NewRequest returned nil; expected error")
