@@ -246,3 +246,47 @@ func TestGameServersService_Get(t *testing.T) {
 		})
 	}
 }
+
+func TestGameServersService_Restart(t *testing.T) {
+	client, mux, _, teardown := setup()
+	defer teardown()
+
+	mux.HandleFunc("/services/7654321/gameservers/restart", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `{"status":"success","message":"Server will be restarted now."}`)
+	})
+	mux.HandleFunc("/services/999/gameservers/restart", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `{"status":"failure","message":"Test failure."}`)
+	})
+
+	type args struct {
+		serviceID int
+	}
+	tests := []struct {
+		name    string
+		s       *GameServersService
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "Restart gameserver",
+			s:       client.GameServers,
+			args:    args{serviceID: 7654321},
+			wantErr: false,
+		},
+		{
+			name:    "Restart gameserver",
+			s:       client.GameServers,
+			args:    args{serviceID: 999},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := tt.s.Restart(tt.args.serviceID); (err != nil) != tt.wantErr {
+				t.Errorf("GameServersService.Restart() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
