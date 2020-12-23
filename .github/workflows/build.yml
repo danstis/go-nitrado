@@ -124,8 +124,9 @@ jobs:
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: v${{ steps.gitversion.outputs.FullSemVer }}
+          custom_tag: ${{ steps.gitversion.outputs.FullSemVer }}
           release_branches: master
+          tag_prefix: v
 
       - name: Check out code
         uses: actions/checkout@v2
