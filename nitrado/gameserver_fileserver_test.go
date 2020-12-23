@@ -17,8 +17,8 @@ func TestFileServerService_List(t *testing.T) {
 	})
 
 	type args struct {
-		svc Service
-		dir string
+		svc  Service
+		opts FileServerListOptions
 	}
 	tests := []struct {
 		name    string
@@ -32,7 +32,9 @@ func TestFileServerService_List(t *testing.T) {
 			s:    client.FileServerService,
 			args: args{
 				svc: Service{ID: 7654321, Username: "ni1_1"},
-				dir: "/games/ni1_1/noftp/dayzxb/config",
+				opts: FileServerListOptions{
+					Dir: "/games/ni1_1/noftp/dayzxb/config",
+				},
 			},
 			want: &[]File{
 				{
@@ -65,7 +67,7 @@ func TestFileServerService_List(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, _, err := tt.s.List(tt.args.svc, tt.args.dir)
+			got, _, err := tt.s.List(tt.args.svc, tt.args.opts)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("FileServerService.List() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -88,7 +90,7 @@ func TestFileServerService_Download(t *testing.T) {
 
 	type args struct {
 		svc  Service
-		file string
+		opts FileServerDownloadOptions
 	}
 	tests := []struct {
 		name    string
@@ -102,15 +104,17 @@ func TestFileServerService_Download(t *testing.T) {
 			name: "Download a file",
 			s:    client.FileServerService,
 			args: args{
-				svc:  Service{ID: 7654321, Username: "ni1_1"},
-				file: "abcd",
+				svc: Service{ID: 7654321, Username: "ni1_1"},
+				opts: FileServerDownloadOptions{
+					File: "abcd",
+				},
 			},
 			want: "http://dev001.nitrado.net:8080/download/?token=00000000-0000-0000-0000-000000000000",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, _, err := tt.s.Download(tt.args.svc, tt.args.file)
+			got, _, err := tt.s.Download(tt.args.svc, tt.args.opts)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("FileServerService.Download() error = %v, wantErr %v", err, tt.wantErr)
 				return
