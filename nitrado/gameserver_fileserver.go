@@ -35,6 +35,17 @@ type FileListResp struct {
 	} `json:"data,omitempty"`
 }
 
+// FileDownloadResp contains the response object from the download method on a fileserver
+type FileDownloadResp struct {
+	Status string `json:"status,omitempty"`
+	Data   struct {
+		Token struct {
+			URL   string `json:"url,omitempty"`
+			Token string `json:"token,omitempty"`
+		} `json:"token,omitempty"`
+	} `json:"data,omitempty"`
+}
+
 // List files on a GameServer.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
@@ -60,4 +71,23 @@ func (s *FileServerService) List(svc Service, dir string) (*[]File, *http.Respon
 	})
 
 	return &fileListResp.Data.Entries, resp, nil
+}
+
+// Download a given file on a GameServer.
+//
+// Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
+func (s *FileServerService) Download(svc Service, file string) (*string, *http.Response, error) {
+	u := fmt.Sprintf("services/%v/gameservers/file_server/download?file=%s", svc.ID, file)
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var fileDownloadResp *FileDownloadResp
+	resp, err := s.client.Do(req, &fileDownloadResp)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &fileDownloadResp.Data.Token.URL, resp, nil
 }
