@@ -144,3 +144,9 @@ func TestNewRequest_badMethod(t *testing.T) {
 		t.Fatal("NewRequest returned nil; expected error")
 	}
 }
+
+func Test_addOptions_empty(t *testing.T) {
+	if _, err := addOptions("test/path", ""); err == nil {
+		t.Fatal("NewRequest returned nil; expected error")
+	}
+}

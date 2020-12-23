@@ -7,9 +7,12 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
@@ -34,13 +37,36 @@ type Client struct {
 	common apiService // Reuse a single struct instead of allocating one for each service on the heap.
 
 	// Services used for talking to different parts of the Nitrado API.
-	Services          *ServicesService
-	GameServers       *GameServersService
-	FileServerService *FileServerService
+	FileServerService   *FileServerService
+	GameServers         *GameServersService
+	GameServersSettings *GSSettingsService
+	Services            *ServicesService
 }
 
 type apiService struct {
 	client *Client
+}
+
+// addOptions adds the parameters in opts as URL query parameters to s. opts
+// must be a struct whose fields may contain "url" tags.
+func addOptions(s string, opts interface{}) (string, error) {
+	v := reflect.ValueOf(opts)
+	if v.Kind() == reflect.Ptr && v.IsNil() {
+		return s, nil
+	}
+
+	u, err := url.Parse(s)
+	if err != nil {
+		return s, err
+	}
+
+	qs, err := query.Values(opts)
+	if err != nil {
+		return s, err
+	}
+
+	u.RawQuery = qs.Encode()
+	return u.String(), nil
 }
 
 // NewRequest creates an API request. A relative URL can be provided in urlStr,
@@ -131,9 +157,10 @@ func NewClient(apiToken string) *Client {
 
 	c.common.client = c
 
-	c.Services = (*ServicesService)(&c.common)
-	c.GameServers = (*GameServersService)(&c.common)
 	c.FileServerService = (*FileServerService)(&c.common)
+	c.GameServers = (*GameServersService)(&c.common)
+	c.GameServersSettings = (*GSSettingsService)(&c.common)
+	c.Services = (*ServicesService)(&c.common)
 
 	return c
 }

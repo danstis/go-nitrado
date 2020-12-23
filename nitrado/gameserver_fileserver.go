@@ -46,14 +46,26 @@ type FileDownloadResp struct {
 	} `json:"data,omitempty"`
 }
 
+// FileServerListOptions controls the query string settings that a settings request can take.
+type FileServerListOptions struct {
+	Dir string `url:"dir,omitempty"`
+}
+
+// FileServerDownloadOptions controls the query string settings that a settings request can take.
+type FileServerDownloadOptions struct {
+	File string `url:"file,omitempty"`
+}
+
 // List files on a GameServer.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
-func (s *FileServerService) List(svc Service, dir string) (*[]File, *http.Response, error) {
+func (s *FileServerService) List(svc Service, opts FileServerListOptions) (*[]File, *http.Response, error) {
 	u := fmt.Sprintf("services/%v/gameservers/file_server/list", svc.ID)
-	if dir != "" {
-		u = fmt.Sprintf("%s?dir=%s", u, dir)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, nil, err
 	}
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -76,8 +88,13 @@ func (s *FileServerService) List(svc Service, dir string) (*[]File, *http.Respon
 // Download a given file on a GameServer.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
-func (s *FileServerService) Download(svc Service, file string) (*string, *http.Response, error) {
-	u := fmt.Sprintf("services/%v/gameservers/file_server/download?file=%s", svc.ID, file)
+func (s *FileServerService) Download(svc Service, opts FileServerDownloadOptions) (*string, *http.Response, error) {
+	u := fmt.Sprintf("services/%v/gameservers/file_server/download", svc.ID)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
