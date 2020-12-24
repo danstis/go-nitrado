@@ -59,7 +59,7 @@ type FileServerDownloadOptions struct {
 // List files on a GameServer.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
-func (s *FileServerService) List(svc Service, opts FileServerListOptions) (*[]File, *http.Response, error) {
+func (s *FileServerService) List(svc Service, opts FileServerListOptions) ([]File, *http.Response, error) {
 	u := fmt.Sprintf("services/%v/gameservers/file_server/list", svc.ID)
 	u, err := addOptions(u, opts)
 	if err != nil {
@@ -82,29 +82,29 @@ func (s *FileServerService) List(svc Service, opts FileServerListOptions) (*[]Fi
 		return fileListResp.Data.Entries[i].ModifiedAt < fileListResp.Data.Entries[j].ModifiedAt
 	})
 
-	return &fileListResp.Data.Entries, resp, nil
+	return fileListResp.Data.Entries, resp, nil
 }
 
 // Download a given file on a GameServer.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
-func (s *FileServerService) Download(svc Service, opts FileServerDownloadOptions) (*string, *http.Response, error) {
+func (s *FileServerService) Download(svc Service, opts FileServerDownloadOptions) (string, *http.Response, error) {
 	u := fmt.Sprintf("services/%v/gameservers/file_server/download", svc.ID)
 	u, err := addOptions(u, opts)
 	if err != nil {
-		return nil, nil, err
+		return "", nil, err
 	}
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
-		return nil, nil, err
+		return "", nil, err
 	}
 
 	var fileDownloadResp *FileDownloadResp
 	resp, err := s.client.Do(req, &fileDownloadResp)
 	if err != nil {
-		return nil, resp, err
+		return "", resp, err
 	}
 
-	return &fileDownloadResp.Data.Token.URL, resp, nil
+	return fileDownloadResp.Data.Token.URL, resp, nil
 }
