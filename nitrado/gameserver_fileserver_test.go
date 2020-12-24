@@ -27,7 +27,7 @@ func TestFileServerService_List(t *testing.T) {
 		name    string
 		s       *FileServerService
 		args    args
-		want    *[]File
+		want    []File
 		wantErr bool
 	}{
 		{
@@ -39,7 +39,7 @@ func TestFileServerService_List(t *testing.T) {
 					Dir: "/games/ni1_1/noftp/dayzxb/config",
 				},
 			},
-			want: &[]File{
+			want: []File{
 				{
 					Owner:      "ni1_1",
 					Chmod:      "100664",
@@ -101,7 +101,6 @@ func TestFileServerService_Download(t *testing.T) {
 		s       *FileServerService
 		args    args
 		want    string
-		want1   *http.Response
 		wantErr bool
 	}{
 		{
@@ -123,7 +122,7 @@ func TestFileServerService_Download(t *testing.T) {
 				t.Errorf("FileServerService.Download() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, &tt.want) {
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("FileServerService.Download() got = %v, want %v", got, tt.want)
 			}
 		})
