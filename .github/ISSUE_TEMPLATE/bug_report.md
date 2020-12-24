@@ -20,8 +20,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Development environment (please complete the following information):**
- - OS: [e.g. Linux]
- - Go version [e.g. 1.15]
+
+- OS: [e.g. Linux]
+- Go version [e.g. 1.15]
 
 **Additional context**
 Add any other context about the problem here.
