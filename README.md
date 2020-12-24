@@ -25,4 +25,4 @@ services, resp, err := client.Services.List()
 
 ## Credit
 
-This API Client is based on the format and hard work of the ![go-github client library](https://github.com/google/go-github).
+This API Client is based on the format and hard work of the [go-github client library](https://github.com/google/go-github).
