@@ -115,8 +115,6 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 // io.Writer interface, the raw response body will be written to v, without
 // attempting to first decode it.
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
-	c.Lock()
-	defer c.Unlock()
 
 	// Do the request
 	var err error = nil
