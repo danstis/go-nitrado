@@ -23,6 +23,11 @@ client := nitrado.NewClient("YourNitradoToken")
 services, resp, err := client.Services.List()
 ```
 
+## Feature requests
+
+Feature request tracking and voting is being tracked by feathub:
+[![Feature Requests](https://feathub.com/danstis/go-nitrado?format=svg)](https://feathub.com/danstis/go-nitrado)
+
 ## Credit
 
 This API Client is based on the format and hard work of the [go-github client library](https://github.com/google/go-github).
