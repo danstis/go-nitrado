@@ -128,3 +128,67 @@ func TestFileServerService_Download(t *testing.T) {
 		})
 	}
 }
+
+// TestFileServerService_Upload tests the FileServerService Download() method.
+func TestFileServerService_Upload(t *testing.T) {
+	client, mux, _, teardown := setup()
+	defer teardown()
+
+	mux.HandleFunc("/services/7654321/gameservers/file_server/upload", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/upload/","token":"00000000-0000-0000-0000-000000000000"}}}`)
+	})
+
+	type args struct {
+		svc  Service
+		opts FileServerUploadOptions
+	}
+	tests := []struct {
+		name    string
+		s       *FileServerService
+		args    args
+		want    FileDownloadResp
+		wantErr bool
+	}{
+		{
+			name: "Upload a file",
+			s:    client.FileServerService,
+			args: args{
+				svc: Service{ID: 7654321, Username: "ni1_1"},
+				opts: FileServerUploadOptions{
+					File: "abcd.txt",
+					Path: "/test",
+				},
+			},
+			want: FileDownloadResp{
+				Status: "success",
+				Data: struct {
+					Token struct {
+						URL   string "json:\"url,omitempty\""
+						Token string "json:\"token,omitempty\""
+					} "json:\"token,omitempty\""
+				}{
+					Token: struct {
+						URL   string "json:\"url,omitempty\""
+						Token string "json:\"token,omitempty\""
+					}{
+						URL:   "http://dev001.nitrado.net:8080/upload/",
+						Token: "00000000-0000-0000-0000-000000000000",
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, _, err := tt.s.Upload(tt.args.svc, tt.args.opts)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FileServerService.Upload() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("FileServerService.Upload() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
