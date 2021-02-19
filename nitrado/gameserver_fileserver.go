@@ -46,13 +46,19 @@ type FileDownloadResp struct {
 	} `json:"data,omitempty"`
 }
 
-// FileServerListOptions controls the query string settings that a settings request can take.
+// FileServerListOptions controls the query string settings that a list request can take.
 type FileServerListOptions struct {
 	Dir string `url:"dir,omitempty"`
 }
 
-// FileServerDownloadOptions controls the query string settings that a settings request can take.
+// FileServerDownloadOptions controls the query string settings that a download request can take.
 type FileServerDownloadOptions struct {
+	File string `url:"file,omitempty"`
+}
+
+// FileServerUploadOptions controls the query string settings that an upload request can take.
+type FileServerUploadOptions struct {
+	Path string `url:"path,omitempty"`
 	File string `url:"file,omitempty"`
 }
 
@@ -87,7 +93,7 @@ func (s *FileServerService) List(svc Service, opts FileServerListOptions) ([]Fil
 
 // Download a given file on a GameServer.
 //
-// Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesList
+// Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesDownload
 func (s *FileServerService) Download(svc Service, opts FileServerDownloadOptions) (string, *http.Response, error) {
 	u := fmt.Sprintf("services/%v/gameservers/file_server/download", svc.ID)
 	u, err := addOptions(u, opts)
@@ -107,4 +113,28 @@ func (s *FileServerService) Download(svc Service, opts FileServerDownloadOptions
 	}
 
 	return fileDownloadResp.Data.Token.URL, resp, nil
+}
+
+// Upload a given file on a GameServer.
+//
+// Nitrado API docs: https://doc.nitrado.net/#api-Gameserver-GameserverFilesUpload
+func (s *FileServerService) Upload(svc Service, opts FileServerUploadOptions) (FileDownloadResp, *http.Response, error) {
+	u := fmt.Sprintf("services/%v/gameservers/file_server/upload", svc.ID)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return FileDownloadResp{}, nil, err
+	}
+
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return FileDownloadResp{}, nil, err
+	}
+
+	var fileDownloadResp *FileDownloadResp
+	resp, err := s.client.Do(req, &fileDownloadResp)
+	if err != nil {
+		return FileDownloadResp{}, resp, err
+	}
+
+	return *fileDownloadResp, resp, nil
 }
