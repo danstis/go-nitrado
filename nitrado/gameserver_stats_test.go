@@ -36,19 +36,19 @@ func TestGameserverStats_Get(t *testing.T) {
 				serviceID: 7654321,
 			},
 			want: GSStats{
-				CPUUsage: [][]int{
+				CPUUsage: [][]float32{
 					{0.0, 1622359920},
 					{0.0, 1622359980},
 				},
-				CurrentPlayers: [][]int{
+				CurrentPlayers: [][]float32{
 					{1.0, 1622359920},
 					{0.0, 1622359980},
 				},
-				MaxPlayers: [][]int{
+				MaxPlayers: [][]float32{
 					{32.0, 1622359920},
 					{32.0, 1622359980},
 				},
-				MemoryUsage: [][]int{
+				MemoryUsage: [][]float32{
 					{4732.0, 1622359920},
 					{4734.0, 1622359980},
 				},

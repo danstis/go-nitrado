@@ -22,10 +22,10 @@ type GSStatsResp struct {
 
 // GSStats contains a stats object for a game server
 type GSStats struct {
-	CPUUsage       [][]int `json:"cpuUsage"`
-	CurrentPlayers [][]int `json:"currentPlayers"`
-	MaxPlayers     [][]int `json:"maxPlayers"`
-	MemoryUsage    [][]int `json:"memoryUsage"`
+	CPUUsage       [][]float32 `json:"cpuUsage"`
+	CurrentPlayers [][]float32 `json:"currentPlayers"`
+	MaxPlayers     [][]float32 `json:"maxPlayers"`
+	MemoryUsage    [][]float32 `json:"memoryUsage"`
 }
 
 // Get stats from a GameServer by service ID.
