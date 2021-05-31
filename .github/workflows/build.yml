@@ -52,9 +52,11 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Test
-        run: go test -v -race -coverprofile=cover.out ./nitrado/
+        run: go test -v -race -coverprofile=cover.out -json ./nitrado/ > test-report.out
 
       - name: Go Vet
         run: go vet ./nitrado/
@@ -73,6 +75,12 @@ jobs:
           file: ./cover.out
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master # https://github.com/marketplace/actions/sonarcloud-scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   lint:
     name: Lint
