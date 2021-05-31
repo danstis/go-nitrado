@@ -20,7 +20,7 @@ type GSStatsResp struct {
 	} `json:"data"`
 }
 
-// Stats contains a stats object for a game server
+// GSStats contains a stats object for a game server
 type GSStats struct {
 	CPUUsage       [][]int `json:"cpuUsage"`
 	CurrentPlayers [][]int `json:"currentPlayers"`
