@@ -41,6 +41,7 @@ type Client struct {
 	GameServers         *GameServersService
 	GameServersSettings *GSSettingsService
 	Services            *ServicesService
+	GameServerStats     *GameServerStatsService
 }
 
 type apiService struct {
@@ -159,6 +160,7 @@ func NewClient(apiToken string) *Client {
 	c.GameServers = (*GameServersService)(&c.common)
 	c.GameServersSettings = (*GSSettingsService)(&c.common)
 	c.Services = (*ServicesService)(&c.common)
+	c.GameServerStats = (*GameServerStatsService)(&c.common)
 
 	return c
 }
