@@ -18,7 +18,7 @@ const (
 	token       = "abcdefg_1234567.abcdef"
 )
 
-// setup sets up a test HTTP server along with a github.Client that is
+// setup sets up a test HTTP server along with a Nitrado.Client that is
 // configured to talk to that test server. Tests should register handlers on
 // mux which provide mock responses for the API method being tested.
 func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown func()) {
@@ -42,7 +42,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 	// server is a test HTTP server used to provide mock API responses.
 	server := httptest.NewServer(apiHandler)
 
-	// client is the GitHub client being tested and is
+	// client is the Nitrado client being tested and is
 	// configured to use test server.
 	client = NewClient(token)
 	url, _ := url.Parse(server.URL + baseURLPath + "/")
