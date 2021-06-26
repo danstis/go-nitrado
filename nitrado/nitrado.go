@@ -122,9 +122,10 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	var resp *http.Response
 	for i := 0; i < retryCount; i++ {
 		resp, err = c.client.Do(req)
-		if err != nil || resp.StatusCode >= 400 {
-			time.Sleep(retryDelay)
+		if err == nil && resp.StatusCode < 400 {
+			break
 		}
+		time.Sleep(retryDelay)
 	}
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {
