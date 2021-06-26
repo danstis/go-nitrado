@@ -29,8 +29,7 @@ type Client struct {
 	token     string
 	UserAgent string
 
-	// Base URL for API requests. Defaults to the public GitHub API, but can be
-	// set to a domain endpoint to use with GitHub Enterprise. BaseURL should
+	// Base URL for API requests. Defaults to the public Nitrado API. BaseURL should
 	// always be specified with a trailing slash.
 	BaseURI *url.URL
 
