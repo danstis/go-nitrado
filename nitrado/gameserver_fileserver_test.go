@@ -16,7 +16,7 @@ func TestFileServerService_List(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/file_server/list", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
+		fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":271029,"path":"/games/ni1_1/noftp/dayzxb/config/script_2021-07-31_14-23-42.log","accessed_at":1627745850,"group":"ni1_1","type":"file","created_at":1627745838,"modified_at":1627745795,"name":"script_2021-07-31_14-23-42.log"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
 	})
 
 	type args struct {
@@ -37,6 +37,92 @@ func TestFileServerService_List(t *testing.T) {
 				svc: Service{ID: 7654321, Username: "ni1_1"},
 				opts: FileServerListOptions{
 					Dir: "/games/ni1_1/noftp/dayzxb/config",
+				},
+			},
+			want: []File{
+				{
+					Owner:      "ni1_1",
+					Chmod:      "100664",
+					Size:       189313,
+					Path:       "/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM",
+					AccessedAt: 1608566680,
+					Group:      "ni1_1",
+					Type:       "file",
+					CreatedAt:  1608566578,
+					ModifiedAt: 1608566026,
+					Name:       "DayZServer_X1_x64_2020_12_21_165346976.ADM",
+				},
+				{
+					Owner:      "ni1_1",
+					Chmod:      "100664",
+					Size:       499593,
+					Path:       "/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM",
+					AccessedAt: 1608633696,
+					Group:      "ni1_1",
+					Type:       "file",
+					CreatedAt:  1608633683,
+					ModifiedAt: 1608633679,
+					Name:       "DayZServer_X1_x64.ADM",
+				},
+				{
+					Owner:      "ni1_1",
+					Chmod:      "100664",
+					Size:       271029,
+					Path:       "/games/ni1_1/noftp/dayzxb/config/script_2021-07-31_14-23-42.log",
+					AccessedAt: 1627745850,
+					Group:      "ni1_1",
+					Type:       "file",
+					CreatedAt:  1627745838,
+					ModifiedAt: 1627745795,
+					Name:       "script_2021-07-31_14-23-42.log",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, _, err := tt.s.List(tt.args.svc, tt.args.opts)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FileServerService.List() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("FileServerService.List() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+// TestFileServerService_ListWithFilter tests the FileServerService List() method.
+func TestFileServerService_ListWithFilter(t *testing.T) {
+	client, mux, _, teardown := setup()
+	defer teardown()
+
+	mux.HandleFunc("/services/7654321/gameservers/file_server/list", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
+	})
+
+	type args struct {
+		svc  Service
+		opts FileServerListOptions
+	}
+	tests := []struct {
+		name    string
+		s       *FileServerService
+		args    args
+		want    []File
+		wantErr bool
+	}{
+		{
+			name: "DayZ Logs",
+			s:    client.FileServerService,
+			args: args{
+				svc: Service{ID: 7654321, Username: "ni1_1"},
+				opts: FileServerListOptions{
+					Dir:    "/games/ni1_1/noftp/dayzxb/config",
+					Search: "*.ADM",
 				},
 			},
 			want: []File{

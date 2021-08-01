@@ -48,7 +48,8 @@ type FileDownloadResp struct {
 
 // FileServerListOptions controls the query string settings that a list request can take.
 type FileServerListOptions struct {
-	Dir string `url:"dir,omitempty"`
+	Dir    string `url:"dir,omitempty"`
+	Search string `url:"search,omitempty"`
 }
 
 // FileServerDownloadOptions controls the query string settings that a download request can take.
