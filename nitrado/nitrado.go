@@ -39,8 +39,9 @@ type Client struct {
 	FileServerService   *FileServerService
 	GameServers         *GameServersService
 	GameServersSettings *GSSettingsService
-	Services            *ServicesService
 	GameServerStats     *GameServerStatsService
+	PlayerListService   *PlayerListService
+	Services            *ServicesService
 }
 
 type apiService struct {
@@ -161,6 +162,7 @@ func NewClient(apiToken string) *Client {
 	c.GameServersSettings = (*GSSettingsService)(&c.common)
 	c.Services = (*ServicesService)(&c.common)
 	c.GameServerStats = (*GameServerStatsService)(&c.common)
+	c.PlayerListService = (*PlayerListService)(&c.common)
 
 	return c
 }
