@@ -25,8 +25,7 @@ services, resp, err := client.Services.List()
 
 ## Feature requests
 
-Feature request tracking and voting is being tracked by feathub:
-[![Feature Requests](https://feathub.com/danstis/go-nitrado?format=svg)](https://feathub.com/danstis/go-nitrado)
+Feature request tracking and voting is being tracked using [GitHub discussions](https://github.com/danstis/go-openxbl/discussions/categories/ideas).
 
 ## Credit
 
