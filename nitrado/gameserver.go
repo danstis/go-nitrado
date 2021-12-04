@@ -77,6 +77,7 @@ type GameServer struct {
 			DisablePersonalLight        string `json:"disablePersonalLight,omitempty"`
 			DisableBaseDamage           string `json:"disableBaseDamage,omitempty"`
 			DisableContainerDamage      string `json:"disableContainerDamage,omitempty"`
+			EnableCFGGameplayFile       string `json:"enableCfgGameplayFile,omitempty"`
 		} `json:"config,omitempty"`
 		General struct {
 			ExpertMode     string `json:"expertMode,omitempty"`
