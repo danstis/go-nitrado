@@ -79,9 +79,20 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.11
+        with:
+          versionSpec: "5.x"
+      - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.11
+
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' }}
         uses: SonarSource/sonarcloud-github-action@master # https://github.com/marketplace/actions/sonarcloud-scan
+        with:
+          args: >
+            -Dsonar.projectVersion=${{ steps.gitversion.outputs.FullSemVer }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -125,7 +136,6 @@ jobs:
         uses: gittools/actions/gitversion/setup@v0.9.11
         with:
           versionSpec: "5.5.x"
-
       - name: Version with GitVersion # https://github.com/marketplace/actions/use-actions
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0.9.11
