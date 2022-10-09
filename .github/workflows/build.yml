@@ -157,7 +157,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           version: latest
