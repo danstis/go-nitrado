@@ -16,7 +16,7 @@ func TestFileServerService_List(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/file_server/list", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":271029,"path":"/games/ni1_1/noftp/dayzxb/config/script_2021-07-31_14-23-42.log","accessed_at":1627745850,"group":"ni1_1","type":"file","created_at":1627745838,"modified_at":1627745795,"name":"script_2021-07-31_14-23-42.log"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":271029,"path":"/games/ni1_1/noftp/dayzxb/config/script_2021-07-31_14-23-42.log","accessed_at":1627745850,"group":"ni1_1","type":"file","created_at":1627745838,"modified_at":1627745795,"name":"script_2021-07-31_14-23-42.log"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
 	})
 
 	type args struct {
@@ -101,7 +101,7 @@ func TestFileServerService_ListWithFilter(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/file_server/list", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"entries":[{"owner":"ni1_1","chmod":"100664","size":499593,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64.ADM","accessed_at":1608633696,"group":"ni1_1","type":"file","created_at":1608633683,"modified_at":1608633679,"name":"DayZServer_X1_x64.ADM"},{"owner":"ni1_1","chmod":"100664","size":189313,"path":"/games/ni1_1/noftp/dayzxb/config/DayZServer_X1_x64_2020_12_21_165346976.ADM","accessed_at":1608566680,"group":"ni1_1","type":"file","created_at":1608566578,"modified_at":1608566026,"name":"DayZServer_X1_x64_2020_12_21_165346976.ADM"}]}}`)
 	})
 
 	type args struct {
@@ -175,7 +175,7 @@ func TestFileServerService_Download(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/file_server/download", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/download/?token=00000000-0000-0000-0000-000000000000","token":"00000000-0000-0000-0000-000000000000"}}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/download/?token=00000000-0000-0000-0000-000000000000","token":"00000000-0000-0000-0000-000000000000"}}}`)
 	})
 
 	type args struct {
@@ -222,7 +222,7 @@ func TestFileServerService_Upload(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/file_server/upload", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/upload/","token":"00000000-0000-0000-0000-000000000000"}}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"token":{"url":"http://dev001.nitrado.net:8080/upload/","token":"00000000-0000-0000-0000-000000000000"}}}`)
 	})
 
 	type args struct {
