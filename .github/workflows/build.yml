@@ -113,7 +113,7 @@ jobs:
       - name: Run golangci-lint # https://github.com/marketplace/actions/run-golangci-lint
         uses: golangci/golangci-lint-action@v8
         with:
-          version: v1.50
+          version: latest
 
   tag:
     name: Tag and Release
