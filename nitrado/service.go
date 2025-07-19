@@ -81,8 +81,8 @@ func (s *ServicesService) List() (*[]Service, *http.Response, error) {
 // Get a Service by ID.
 //
 // Nitrado API docs: https://doc.nitrado.net/#api-Service-Details
-func (s *ServicesService) Get(ID int) (*Service, *http.Response, error) {
-	u := fmt.Sprintf("services/%v", ID)
+func (s *ServicesService) Get(id int) (*Service, *http.Response, error) {
+	u := fmt.Sprintf("services/%v", id)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err

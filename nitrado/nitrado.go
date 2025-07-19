@@ -118,7 +118,7 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
 	// Do the request
-	var err error = nil
+	var err error
 	var resp *http.Response
 	for i := 0; i < retryCount; i++ {
 		resp, err = c.client.Do(req)
