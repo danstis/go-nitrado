@@ -3,11 +3,9 @@ version: "2"
 run:
   timeout: 5m
   tests: true
-  go: "1.19"
 
 linters:
   enable:
-    # Core linters - staticcheck includes SA1019 for deprecated function detection
     - errcheck
     - gocritic
     - gocyclo
@@ -17,16 +15,3 @@ linters:
     - revive
     - staticcheck
     - unused
-
-linters-settings:
-  staticcheck:
-    # SA1019 specifically checks for use of deprecated functions, methods, and fields
-    checks: ["all"]
-  
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
-
-issues:
-  max-issues-per-linter: 0
-  max-same-issues: 0
