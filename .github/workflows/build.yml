@@ -61,7 +61,7 @@ jobs:
       - name: golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.2.2
-          golangci-lint run --timeout=5m --out-format=checkstyle --issues-exit-code=0 ./... > golangci-report.xml
+          golangci-lint run --output.checkstyle.path golangci-report.xml --issues-exit-code 0 ./...
           ls -l golangci-report.xml
 
       - name: Install deepsource CLI
