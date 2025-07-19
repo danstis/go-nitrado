@@ -89,7 +89,7 @@ jobs:
 
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: SonarSource/sonarqube-scan-action@v3
+        uses: SonarSource/sonarqube-scan-action@v5.2.0
         with:
           args: >
             -Dsonar.projectVersion=${{ steps.gitversion.outputs.FullSemVer }}
