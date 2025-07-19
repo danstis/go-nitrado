@@ -169,6 +169,6 @@ jobs:
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
