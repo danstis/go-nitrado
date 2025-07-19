@@ -58,8 +58,10 @@ jobs:
       - name: Test
         run: go test -v -race -coverprofile=cover.out -json ./nitrado/ > test-report.out
 
-      - name: Go Vet
-        run: go vet ./nitrado/
+      - name: golangci-lint
+        run: |
+          golangci-lint run --timeout=5m --out-format=checkstyle --issues-exit-code=0 ./... > golangci-report.xml
+          ls -l golangci-report.xml
 
       - name: Install deepsource CLI
         if: ${{ github.actor != 'dependabot[bot]' }}
@@ -100,6 +102,11 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    permissions:
+      # Required: allow read access to the content for analysis.
+      contents: read
+      # Optional: allow read access to pull requests. Use with `only-new-issues` option.
+      pull-requests: read
     steps:
       - name: Check out code
         uses: actions/checkout@v3.5.2
@@ -110,7 +117,7 @@ jobs:
           go-version: ^1.19
         id: go
 
-      - name: Run golangci-lint # https://github.com/marketplace/actions/run-golangci-lint
+      - name: Run golangci-lint # https://github.com/marketplace/actions/golangci-lint
         uses: golangci/golangci-lint-action@v8
         with:
           version: latest
