@@ -3,7 +3,7 @@ package nitrado
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -101,7 +101,7 @@ func TestNewRequest(t *testing.T) {
 	}
 
 	// Test that body was JSON encoded
-	body, _ := ioutil.ReadAll(req.Body)
+	body, _ := io.ReadAll(req.Body)
 	if got, want := string(body), outBody; got != want {
 		t.Errorf("NewRequest(%q) Body is %v, want %v", inBody, got, want)
 	}

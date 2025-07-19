@@ -1,3 +1,4 @@
+// Package nitrado provides a client for the Nitrado API.
 package nitrado
 
 import (
