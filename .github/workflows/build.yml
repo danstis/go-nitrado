@@ -78,7 +78,7 @@ jobs:
         if: ${{ github.actor != 'dependabot[bot]' }}
         uses: codecov/codecov-action@v5.4.3
         with:
-          file: ./cover.out
+          files: ./cover.out
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
