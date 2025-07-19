@@ -16,7 +16,7 @@ func TestPlayerListService_List(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/games/players", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"players":[{"name":null,"id":"abcdefg12345678","id_type":"internal","online":"true","actions":["kick"]},{"name":"Player25","id":"hijklmnop0987654321","id_type":"internal","online":"true","actions":["kick","promotion_level_0","promotion_level_2","promotion_level_3"]},{"name":"Player26","id":"ijklmnop0987654322","id_type":"internal","online":"true","actions":["kick","promotion_level_0","promotion_level_2","promotion_level_3"]},{"name":null,"id":"bcdefg123456790","id_type":"internal","online":"true","actions":["kick"]}]}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"players":[{"name":null,"id":"abcdefg12345678","id_type":"internal","online":"true","actions":["kick"]},{"name":"Player25","id":"hijklmnop0987654321","id_type":"internal","online":"true","actions":["kick","promotion_level_0","promotion_level_2","promotion_level_3"]},{"name":"Player26","id":"ijklmnop0987654322","id_type":"internal","online":"true","actions":["kick","promotion_level_0","promotion_level_2","promotion_level_3"]},{"name":null,"id":"bcdefg123456790","id_type":"internal","online":"true","actions":["kick"]}]}}`)
 	})
 
 	type args struct {

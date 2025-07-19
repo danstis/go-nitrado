@@ -16,7 +16,7 @@ func TestGameserverStats_Get(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/stats", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"status":"success","data":{"stats":{"cpuUsage":[[0,1622359920],[0,1622359980]],"currentPlayers":[[1,1622359920],[0,1622359980]],"maxPlayers":[[32,1622359920],[32,1622359980]],"memoryUsage":[[4732,1622359920],[4734,1622359980]]}}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"stats":{"cpuUsage":[[0,1622359920],[0,1622359980]],"currentPlayers":[[1,1622359920],[0,1622359980]],"maxPlayers":[[32,1622359920],[32,1622359980]],"memoryUsage":[[4732,1622359920],[4734,1622359980]]}}}`)
 	})
 
 	type args struct {

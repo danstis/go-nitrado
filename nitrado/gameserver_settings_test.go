@@ -16,11 +16,11 @@ func TestGSSettingsService_Update(t *testing.T) {
 
 	mux.HandleFunc("/services/7654321/gameservers/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		fmt.Fprint(w, `{"status":"success","data":{"settings":{"config":{"mysetting":"true"}}}}`)
+		_, _ = fmt.Fprint(w, `{"status":"success","data":{"settings":{"config":{"mysetting":"true"}}}}`)
 	})
 	mux.HandleFunc("/services/999/gameservers/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		fmt.Fprint(w, `{"status":"failure"}`)
+		_, _ = fmt.Fprint(w, `{"status":"failure"}`)
 	})
 
 	type args struct {

@@ -1,0 +1,33 @@
+version: 2
+
+run:
+  timeout: 5m
+  tests: true
+  go: "1.14"
+
+linters:
+  enable:
+    # Core linters - staticcheck includes SA1019 for deprecated function detection
+    - errcheck
+    - gocritic
+    - gocyclo
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - unused
+
+linters-settings:
+  staticcheck:
+    # SA1019 specifically checks for use of deprecated functions, methods, and fields
+    # This ensures deprecated code detection is enabled
+    checks: ["all"]
+  
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
