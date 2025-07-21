@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
 
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -110,7 +110,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Check out code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.2.2
 
       - name: Set up Go 1.x
         uses: actions/setup-go@v5.5.0
@@ -130,7 +130,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Check out code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
 
@@ -159,7 +159,7 @@ jobs:
           tag_prefix: v
 
       - name: Check out code
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.2.2
         if: ${{ steps.gitversion.outputs.PreReleaseTagWithDash == '' }}
         with:
           fetch-depth: 0
