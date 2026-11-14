@@ -83,12 +83,12 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.0.1 # https://github.com/marketplace/actions/gittools
+        uses: gittools/actions/gitversion/setup@v4.1.0 # https://github.com/marketplace/actions/gittools
         with:
           versionSpec: '6.x'
       - name: Version with GitVersion 
         id: gitversion # step id used as a reference for output values
-        uses: gittools/actions/gitversion/execute@v4.0.1 # https://github.com/marketplace/actions/gittools
+        uses: gittools/actions/gitversion/execute@v4.1.0 # https://github.com/marketplace/actions/gittools
 
       - name: SonarCloud Scan
         if: ${{ github.actor != 'dependabot[bot]' }}
@@ -141,12 +141,12 @@ jobs:
         id: go
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.0.1 # https://github.com/marketplace/actions/gittools
+        uses: gittools/actions/gitversion/setup@v4.1.0 # https://github.com/marketplace/actions/gittools
         with:
           versionSpec: '6.x'
       - name: Version with GitVersion 
         id: gitversion # step id used as a reference for output values
-        uses: gittools/actions/gitversion/execute@v4.0.1 # https://github.com/marketplace/actions/gittools
+        uses: gittools/actions/gitversion/execute@v4.1.0 # https://github.com/marketplace/actions/gittools
 
       - name: Bump version and push tag
         id: tag_version
