@@ -119,7 +119,7 @@ jobs:
         id: go
 
       - name: Run golangci-lint # https://github.com/marketplace/actions/golangci-lint
-        uses: golangci/golangci-lint-action@v8
+        uses: golangci/golangci-lint-action@v9
         with:
           version: latest
 
